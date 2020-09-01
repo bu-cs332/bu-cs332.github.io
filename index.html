@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>CS 332: Theory of Computation (Fall 2020)</title>
+        <link rel="stylesheet" href="main.css">
+        <script type="application/javascript">
+            window.addEventListener('load', (_) => {
+                for (const element of document.querySelectorAll('.copy2clipboard')) {
+                    element.addEventListener('click', (event) => {
+                        const selection = window.getSelection();
+                        selection.removeAllRanges();
+                        const range = document.createRange();
+                        range.selectNodeContents(event.target);
+                        selection.addRange(range);
+                        document.execCommand('copy');
+                    });
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <!-- Materials courtesy of Mark Bun's website: https://cs-people.bu.edu/mbun/courses/332_S20/ -->
+        
+        <h1>CS 332: Theory of Computation (Fall 2020)</h1>
+        <details open>
+            <summary class="h2">Course Overview</summary>
+            <p>
+                This course is an introduction to the theory of computation. This is the branch of computer science that aims to understand which problems can be solved using computational devices and how efficiently those problems can be solved. To be able to make precise statements and rigorous arguments, computational devices are modeled using abstract mathematical "models of computation." The learning objectives of the course are to:
+            </p>
+            <ul>
+                <li> Foremost, understand how to rigorously reason about computation through the use of abstract, formal models.</li>
+                <li> Learn the definitions of several specific models of computation including finite automata, context-free grammars, and Turing machines, learn tools for analyzing their power and limitations, and understand how they are used in other areas of computer science.</li>
+                <li> Learn how fundamental philosophical questions about the nature of computation (Are there problems which cannot be solved by computers? Can every problem for which we can quickly verify a solution also be solved efficiently?) can be formalized as precise mathematical problems.</li>
+                <li> Gain experience with creative mathematical problem solving and develop the ability to write correct, clear, and concise mathematical proofs.</li>
+            </ul>
+
+            <table class="sketchy">
+                <tr>
+                    <th>Instructor:</th>
+                    <td><a href="https://www.cs.bu.edu/~canetti/" target="_blank">Ran Canetti</a></td>
+                </tr>
+                <tr>
+                    <th>Instructor Office Hours:</th>
+                    <td>Thu 3:30-5pm ET (<a href="https://bostonu.zoom.us/j/96833730296?pwd=bkMzcC85ZTZDMENXZ3FRK2swYjNQQT09" target="_blank">Zoom only</a>) or by appointment (send a private note on Piazza)</td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr>
+                    <th>Teaching Fellow:</th>
+                    <td><a href="https://cs-people.bu.edu/luowenq/" target="_blank">Luowen Qian</a></td>
+                </tr>
+                <tr>
+                    <th>T.F. Office Hours:</th>
+                    <td>(tentatively) Fri 2-4pm ET (<span title="As highly recommended by CS department"><a href="https://bostonu.zoom.us/j/94746608666?pwd=bkFhUmZBQXErOWVzQWl2NCtzdTArUT09" target="_blank">Zoom</a> only</span>) or by appointment (send a private note on Piazza)</td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr>
+                    <th>Class Times:</th>
+                    <td>Tue, Thu 2-3:15pm ET (<a href="https://goo.gl/maps/u1uCB6yV12Wjp6cB6" target="_blank">MCS</a> B37 + <a href="https://bostonu.zoom.us/j/96833730296?pwd=bkMzcC85ZTZDMENXZ3FRK2swYjNQQT09" target="_blank">Zoom</a>)</td>
+                </tr>
+                <tr>
+                    <th>Discussion Sections:</th>
+                    <td>Wed 11:15am-12:05pm ET (<a href="https://goo.gl/maps/HVd4dwMQ71gnUQBB8" target="_blank">CGS</a> 315 + <a href="https://bostonu.zoom.us/j/94584806858?pwd=bzNXeTVKYWVVbldiWlVnWENQam1FUT09" target="_blank">Zoom</a>)</td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>Wed 12:20-1:10pm ET (<a href="https://goo.gl/maps/HVd4dwMQ71gnUQBB8" target="_blank">CGS</a> 113 + <a href="https://bostonu.zoom.us/j/94584806858?pwd=bzNXeTVKYWVVbldiWlVnWENQam1FUT09" target="_blank">Zoom</a>)</td>
+                </tr>
+            </table>
+            
+            
+            <h3>Index of Links</h3>
+            
+            <p><b>Course website:</b> TBD.</p>
+            
+            <p><b>Zoom:</b> <a href="https://bostonu.zoom.us/j/96833730296?pwd=bkMzcC85ZTZDMENXZ3FRK2swYjNQQT09" target="_blank">https://bostonu.zoom.us/j/96833730296?pwd=bkMzcC85ZTZDMENXZ3FRK2swYjNQQT09</a> (both lecture and instructor office hours)</p>
+            
+            <p><b>Piazza:</b> <a href="https://piazza.com/bu/fall2020/cs332" target="_blank">https://piazza.com/bu/fall2020/cs332</a></p>
+            
+            <p><b>Gradescope:</b> <a href="https://www.gradescope.com/" target="_blank">https://www.gradescope.com</a>. Use Entry Code <code class="copy2clipboard">9W7J53</code>.</p>
+            
+            <p><b>Top Hat:</b> <a href="https://app.tophat.com/e/694168" target="_blank">https://app.tophat.com/e/694168</a>. Use Join Code <code class="copy2clipboard">694168</code> or <code class="copy2clipboard">cs332f20</code>.</p>
+            
+            
+            <h3>Teaching Format</h3>
+            
+            <p>
+                The teaching will follow the Learn <i>from</i> Anywhere (L<i>f</i>A) policy, allowing both in-person and remote students.
+                We will experiment with different methods of teaching, including lecturing, recorded lecturing, flipped class, problem solving in class.
+            </p>
+            
+            <p>
+                We will the use Top Hat response system for questions during the lectures.
+                You will be able to submit answers to in-class questions using Apple or Android smartphones and tablets, laptops, or through text message.
+            </p>
+            
+            <p>
+You can visit the Top Hat Overview (Top-Hat-Overview-and-Getting-Started-Guide) within the Top Hat Success Center which outlines how you will register for a Top Hat account, as well as providing a brief overview to get you up and running on the system.
+            </p>
+            
+            
+            <h3>Prerequisites</h3>
+            
+            <ul>
+                <li><a href="https://www.bu.edu/academics/cas/courses/cas-cs-131/" target="_blank">CS 131: Combinatoric Structures</a></li>
+                <li><a href="https://www.bu.edu/academics/cas/courses/cas-cs-330/" target="_blank">CS 330: Introduction to Analysis of Algorithms</a></li>
+            </ul>
+            
+            <p>You are not supposed to be registered for the class if you have not met the prerequisites.</p>
+            
+            
+            <h3>Course Outlines</h3>
+            
+            <ul>
+                <li> Automata and Formal Language Theory. Deterministic finite automata, nondeterministic finite automata, regular expressions. Pumping Lemma, non-regular languages. Pushdown automata and context-free languages.</li>
+                <li> Computability Theory. Turing Machines and the Church-Turing thesis. Decidability, halting problem. Reductions. Rice's Theorem, Recursion Theorem. Kolmogorov complexity.</li>
+                <li> Complexity Theory. Time complexity, space complexity, hierarchy theorems. Complexity classes P, NP, PSPACE and the P vs. NP question. Polynomial time reductions and NP-completeness.</li>
+                <li> Advanced topics subject to time constraints. Approximation algorithms, randomized algorithms, cryptography, quantum computation.</li>
+            </ul>
+        </details>
+        
+        <details>
+            <summary class="h2">Tentative Schedule</summary>
+            
+            <p>The schedule listed here is tentative and subject to change.</p>
+            
+            <table class="bluey">
+                <thead>
+                    <tr>
+                        <th style="width: 4em;">Date</th>
+                        <th>Topics</th>
+                        <th>Reading/Reference</th>
+                        <th>Handouts/Assignments</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>Th 9/3</td>
+                    <td>Welcome, introduction</td>
+                    <td>Sipser 0-1.1</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tu 9/8</td>
+                    <td>Finite automata, regular operations</td>
+                    <td>Sipser 1.1-1.2</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Th 9/10</td>
+                    <td>DFA-NFA equivalence, closure under regular operations</td>
+                    <td>Sipser 1.1-1.2</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tu 9/15</td>
+                    <td>Non-regular languages, Pumping Lemma</td>
+                    <td>Sipser 1.4</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Th 9/17</td>
+                    <td>Regular expressions</td>
+                    <td>Sipser 1.3</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tu 9/22</td>
+                    <td>Regular expressions cont'd, context-free grammars, Pumping Lemma for CFGs</td>
+                    <td>Sisper 2.1, 2.3</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Th 9/24</td>
+                    <td>Pushdown automata</td>
+                    <td>Sipser 2.2</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tu 9/29</td>
+                    <td>Equivalence of PDAs and CFGs</td>
+                    <td>Sipser 2.2</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Th 10/1</td>
+                    <td>Midterm 1 Review</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tu 10/6</td>
+                    <td><span style="color:green">MIDTERM 1</span></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Th 10/8</td>
+                    <td>Turing machines</td>
+                    <td>Sipser 3.1, 3.3</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tu 10/13</td>
+                    <td class="highlight" colspan="2">NO CLASS &mdash; Substitute Monday Schedule of Classes</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Th 10/15</td>
+                    <td>TM variants, Church-Turing Thesis</td>
+                    <td>Sipser 3.1-3.2</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tu 10/20</td>
+                    <td>TM variants, Church-Turing Thesis (cont'd) </td>
+                    <td>Sipser 3.1-3.2</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Th 10/22</td>
+                    <td>Decidable languages</td>
+                    <td>Sipser 4.1</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tu 10/27</td>
+                    <td>Diagonalization</td>
+                    <td>Sipser 4.2</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Th 10/29</td>
+                    <td>Undecidable and unrecognizable languages, reductions</td>
+                    <td>Sipser 4.2, 5.1</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tu 11/3</td>
+                    <td>Mapping reductions</td>
+                    <td>Sipser 5.3</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Th 11/5</td>
+                    <td>Midterm 2 Review</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tu 11/10</td>
+                    <td><span style="color:green">MIDTERM 2</span></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Th 11/12</td>
+                    <td>Time complexity, P</td>
+                    <td>Sipser 7.1-7.2</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tu 11/17</td>
+                    <td>Nondeterministic time, NP</td>
+                    <td>Sipser 7.3-7.4</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Th 11/19</td>
+                    <td>More on NP</td>
+                    <td>Sipser 7.3-7.4</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tu 11/24</td>
+                    <td>Cook-Levin Theorem, NP-complete problems</td>
+                    <td>Sipser 7.4-7.5</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Th 11/26</td>
+                    <td class="highlight" colspan="2">NO CLASS &mdash; Thanksgiving Recess</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tu 12/1</td>
+                    <td>TBD</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Th 12/3</td>
+                    <td>TBD</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tu 12/8</td>
+                    <td>TBD</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Th 12/10</td>
+                    <td>Course Wrap-Up and Final Review</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>TBD</td>
+                    <td><span style="color:green">Final Exam</span></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </details>
+        
+        <details>
+            <summary class="h2">Textbooks and References</summary>
+            
+            <h3>Required Textbook</h3>
+            
+            <p>
+                Michael Sipser, Introduction to the Theory of Computation, 3rd Edition. ISBN-13: 978-1133187790.
+                <br>
+                See <a href="http://www-math.mit.edu/~sipser/itoc-errs3.1.html">here</a> for a list of errata.
+            </p>
+
+            <p>
+                Reading the textbook before class and reviewing it after class are important for solidifying your understanding of the course material. However, I do not want the exhorbitant price of the book to pose a barrier to your learning. Using an older edition of the text is fine (though beware that section numbers may be different). If the cost of the textbook still presents a burden for you, let me know and I can loan you a copy or recommend another solution.
+            </p>
+
+            <h3>
+                Other Resources
+            </h3>
+
+            <p>
+                <u>Proof Techniques:</u> <br>
+                Richard Hammack, Book of Proof. <a href="http://www.people.vcu.edu/~rhammack/BookOfProof/">Available online here</a>.
+            </p>
+
+            <p>
+                <u>Automata and Computability Theory:</u> <br>
+                Dexter Kozen, Automata and Computability.
+            </p>
+
+            <p>
+                <u>Complexity Theory:</u> <br>
+                Sanjeev Arora and Boaz Barak, Computational Complexity: A Modern Approach. <br>
+                Cristopher Moore and Stephan Mertens, The Nature of Computation.
+            </p>
+        </details>
+        
+        <details>
+            <summary class="h2">Evaluation</summary>
+            
+            Your grade in the course will be determined by homework assignments, three in-class exams, and class participation. <br>
+
+            The following letter grades are guaranteed if you earn the corresponding percentages: A ≥93%, A- ≥90%, B+ ≥87%, B ≥83%, B- ≥80%, C+ ≥75%, C ≥70%. However, to correct for the possibility of assignments and exams being more difficult than anticipated, letter grades may be (significantly) increased above these guarantees based on the overall performance of the class.
+
+
+            <h3>
+            Homework (30%)
+            </h3>
+
+            <p>There will be weekly homework assignments to be submitted on Gradescope every Tuesday at 2PM. No late homework will be accepted. To accomodate extenuating circumstances, your two lowest homework grades will be dropped. 
+            </p>
+
+            <p>You are allowed, and indeed encouraged, to collaborate with other students on solving the homework problems. However, you must write the solutions independently in your own words.
+            </p>
+
+            <p>Some homework assigments may include optional "bonus" problems. Solving these problems will not directly contribute to your homework grade but may improve the letter grade you receive in the course if the final percentage we calculate is on the borderline between two letter grades. Solving bonus problems is also a good way to impress your instructor if you are seeking a recommendation letter, research opportunities, or a grading position. Collaboration is NOT allowed on bonus problems.
+            </p>
+
+            <p>
+                You are expected to present your homework cleanly so that the graders do not mistakenly take away your points.
+                You may want to use LaTeX to typeset your homework solutions. LaTeX is the standard document preparation system used in the mathematical sciences. Using LaTeX makes it easier for you to revise and edit your solutions and for us to read them, so you will never lose points for illegibility. 
+            </p>
+
+            <p>
+            For LaTeX editors, you can try <a href="https://pages.uoregon.edu/koch/texshop/">TexShop</a> for Mac and <a href="https://www.texstudio.org/">TexStudio</a> for Windows. If you would like to give LaTeX a try on the web without installing anything on your computer, <a href="https://www.overleaf.com/">Overleaf</a> is a good option.
+            </p>
+
+            <p>
+            Not so short <a href="https://tobi.oetiker.ch/lshort/lshort.pdf">intro to LaTeX</a>. A <a href="http://www.tug.org/twg/mactex/tutorials/ltxprimer-1.0.pdf">LaTeX tutorial</a>.
+            </p>
+
+            <p>
+            Homework template files: this will be up shortly later.
+            </p>
+
+            <h3>
+            Midterm 1 (10%), Midterm 2 (10%), Final Exam (20%)
+            </h3>
+
+            <p>There will be two 70-minute in-class midterm exams scheduled for Monday, Feb. 24 and Wednesday, Apr. 1. <b>These dates are confirmed and are not subject to change.</b> Each midterm will cover roughly one-third of the course content. A comprehensive final exam will be held during the normal two-hour exam slot. Please wait until the official University final exam schedule is finalized before making your end-of-semester travel plans.
+            </p>
+
+            <p>You may bring one double-sided 8.5" x 11" sheet of notes to each midterm exam and two such sheets to the final exam. Note sheets may be either handwritten or typeset. You may not use any other aids during the exam, including but not limited to books, lecture notes, calculators, phones, or laptops.
+            </p>
+
+            <h3>
+            Class Participation (30%)
+            </h3>
+
+            <p>
+            Your active participation in class and in discussion sections is an essential part of your learning. Your participation grade will be determined by your engagement with the Top Hat classroom response system. It will also be possible to increase this score by thoughtfully asking and answering questions in lectures, in discussions, on Piazza, or during office hours.
+            </p>
+        </details>
+        
+        <details>
+            <summary class="h2">Policies</summary>
+
+<h3>
+Academic Conduct
+</h3>
+All Boston University students are expected to maintain high standards of academic honesty and integrity. It is your responsibility to be familiar with the Academic Conduct Code, which describes the ethical standards to which BU students are expected to adhere and students’ rights and responsibilities as members of BU’s learning community. All instances of cheating, plagiarism, and other forms of academic misconduct will be addressed in accordance with this policy. Penalties for academic misconduct can range from failing an assignment or course to suspension or expulsion from the university.
+<br>
+<br>
+<a href="https://www.bu.edu/academics/policies/academic-conduct-code/">https://www.bu.edu/academics/policies/academic-conduct-code/</a>
+<br>
+<a href="http://www.bu.edu/cas/current-students/phd-mfa-students/academic-policies-and-conduct-code/">http://www.bu.edu/cas/current-students/phd-mfa-students/academic-policies-and-conduct-code/</a>
+
+
+<h3>
+Attendance Policy
+</h3>
+            
+            <p>
+Students are expected to attend each class session unless they have a valid reason for being absent. If you must miss class due to illness or another reason, please notify the instructor as soon as possible, ideally before the absence.
+</p>
+            <p>
+            Consistent attendance is necessary for remote students in order to follow the classes.
+            All students are expected to be responsible for preparing the equipments for them to be able to either attend the class and exams, either in-person or remotely.
+            </p>
+<a href="https://www.bu.edu/academics/policies/attendance/">https://www.bu.edu/academics/policies/attendance/</a>
+<br>
+
+<h3>
+Absence Due to Religious Observance
+</h3>
+If you must miss class due to religious observance, you will not be penalized for that absence and you will receive a reasonable opportunity to make up any work or examinations that you may miss. Please notify the instructor of absences for religious observance as soon as possible, ideally before the absence.
+<br>
+<br>
+<a href="https://www.bu.edu/academics/policies/absence-for-religious-reasons/">https://www.bu.edu/academics/policies/absence-for-religious-reasons/</a>
+
+<h3>
+Bereavement
+</h3>
+In the event of the death of an immediate family member, you should notify your advisor, who will help you coordinate your leave. You will be automatically granted five weekdays of leave, and if necessary, you advisor will help you to petition the Dean for additional leave time. You may also request a leave of absence due to bereavement. Please contact your advisor, who will help you with the process.
+<br>
+<br>
+<a href="https://www.bu.edu/academics/policies/student-bereavement/">https://www.bu.edu/academics/policies/student-bereavement/</a>
+
+<h3>
+Disability Services
+</h3>
+Students with documented disabilities, including learning disabilities, may be entitled to accommodations intended to ensure that they have integrated and equal access to the academic, social, cultural, and recreational programs the university offers. Accommodations may include, but are not limited to, additional time on tests, staggered homework assignments, note-taking assistance. If you believe you should receive accommodations, please contact the Office of Disability Services to discuss your situation. This office can give you a letter that you can share with instructors of your classes outlining the accommodations you should receive. The letter will not contain any information about the reason for the accommodations. 
+<br>
+<br>
+If you already have a letter of accommodation, you are encouraged to share it with your instructor as soon as possible. 
+<br>
+<br>
+Disability & Access Services <br>
+25 Buick Street, Suite 300 <br>
+617-353-3658 <br>
+<a href="access@bu.edu">access@bu.edu</a> <br>
+<a href="http://www.bu.edu/disability/">http://www.bu.edu/disability/</a>
+
+<h3>
+Grade Grievances 
+</h3>
+If you feel that you have received an arbitrary grade in a course, you should attempt to meet with the grader before filing a formal appeal. If the student and the instructor are unable to arrive at a mutually agreeable solution, the student may file a formal appeal with the chair. This process must begin within six weeks of the grade posting. To understand how an “arbitrary grade” is defined, please explore the following link.
+<br>
+<br>
+<a href="https://www.bu.edu/academics/policies/policy-on-grade-grievances-for-undergraduate-students-in-boston-university-courses/">https://www.bu.edu/academics/policies/policy-on-grade-grievances-for-undergraduate-students-in-boston-university-courses/</a>
+
+<h3>
+Incomplete Grades
+</h3>
+An incomplete grade (I) is used only when the student has conferred with the instructor prior to the submission of grades and offered acceptable reasons for the incomplete work. If you wish to take an incomplete in this class, please contact the instructor as soon as possible but certainly before the submission of final grades. To receive an incomplete, you and your instructor must both sign an “Incomplete Grade Report” specifying the terms under which you will complete the class.
+<br>
+<br>
+<a href="https://www.bu.edu/academics/policies/incomplete-coursework/">https://www.bu.edu/academics/policies/incomplete-coursework/</a>
+
+<h3>
+Student Health Services
+</h3>
+Offers an array of health services to students, including wellness education and mental health services (behavioral medicine).
+<br>
+<br>
+	<a href="http://www.bu.edu/shs/">http://www.bu.edu/shs/</a> <br>
+	<a href="http://www.bu.edu/shs/wellness/">http://www.bu.edu/shs/wellness/</a> <br>
+	<a href="http://www.bu.edu/shs/behavioral/index.shtml">http://www.bu.edu/shs/behavioral/index.shtml</a>
+	
+<h3>
+Medical Leave of Absence
+</h3>
+If you must take a leave of absence for medical reasons and are seeking to re-enroll, documentation must be provided to Student Health Services so that you may re-enroll. To take a medical leave, please talk with SHS and your advisor, so that they may assist you in taking the best course of action for a successful return.
+<br>
+<br>
+<a href="http://www.bu.edu/usc/leaveandwithdrawal/arranging/">http://www.bu.edu/usc/leaveandwithdrawal/arranging/</a> <br>
+<a href="http://www.bu.edu/academics/policies/withdrawal-leave-of-absence-and-reinstatement/">http://www.bu.edu/academics/policies/withdrawal-leave-of-absence-and-reinstatement/</a>
+
+<h3>
+ISSO
+</h3>
+The International Students & Scholars Office is committed to helping international students integrate into the Boston University community, as well as answering and questions and facilitating any inquiries about documentation and visas. 
+<br>
+<br>
+<a href="https://www.bu.edu/isso/">https://www.bu.edu/isso/</a>
+        </details>
+    </body>
+</html>
