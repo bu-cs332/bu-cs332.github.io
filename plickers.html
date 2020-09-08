@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>CS 332: Theory of Computation (Fall 2020)</title>
+        <link rel="stylesheet" href="main.css">
+        <script type="application/javascript">
+            window.addEventListener('load', (_) => {
+                document.getElementById('theform').addEventListener('submit', (event) => {
+                    const button = document.querySelector('#theform input[type=submit]');
+                    const output = document.getElementById('output');
+                    theform.disabled = true;
+                    output.innerHTML = 'Working...';
+                    event.preventDefault();
+                    const first = document.getElementById('first').value.replaceAll(' ', '').toLowerCase();
+                    const last = document.getElementById('last').value.replaceAll(' ', '').toLowerCase();
+                    const request = new XMLHttpRequest();
+                    request.addEventListener('load', (event) => {
+                        button.disabled = false;
+                        output.innerHTML = request.status === 200 ? request.responseText : 'That did not work... Try it again or ask privately on Piazza. ;)';
+                        output.addEventListener('click', (event) => {
+                            const selection = window.getSelection();
+                            selection.removeAllRanges();
+                            const range = document.createRange();
+                            range.selectNodeContents(event.target);
+                            selection.addRange(range);
+                            document.execCommand('copy');
+                        });
+                    });
+                    request.open('GET', `https://mygod.github.io/cs332pickers/${encodeURIComponent(first)}%20${encodeURIComponent(last)}.txt`);
+                    request.send();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Get your Plickers link</h1>
+        
+        <form id="theform">
+            <p>
+                First name:
+                <input type="text" id="first"/>
+            </p>
+
+            <p>
+                Last name:
+                <input type="text" id="last"/>
+            </p>
+
+            <p>
+                <input type="submit" value="One Plickers link, please" />
+            </p>
+        </form>
+        
+        <p id="output" class="copy2clipboard"></p>
+    </body>
+</html>
