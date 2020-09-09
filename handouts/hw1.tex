@@ -1,0 +1,102 @@
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{fullpage,amsmath,hyperref,color,clrscode,enumitem}
+
+% Unicode compatibility
+\usepackage{iftex}
+\ifPDFTeX
+\usepackage[utf8]{inputenc}
+\usepackage[noTeX]{mmap}
+\usepackage[T1]{fontenc}
+\fi
+% XeTeX does not support mmap
+\ifLuaTeX
+\usepackage{luatex85}
+\usepackage[noTeX]{mmap}
+\fi
+
+\addtolength{\textwidth}{0.2in}
+\addtolength{\oddsidemargin}{-0.1in}
+\addtolength{\evensidemargin}{-0.1in}
+
+\addtolength{\textheight}{0.5in}
+\addtolength{\topmargin}{-0.25in}
+
+\begin{document}
+{\noindent\large
+CS 332: {\em Theory of Computation} \hfill Prof. Ran Canetti\\
+Boston University \hfill \today\\}
+\vspace{1pt} \hrulefill\vspace{3mm}
+\begin{center}
+{\Large\bf Homework 1 -- Due Tuesday, September 15, 2020 \underline{before} 2:00PM}
+\end{center}
+
+\paragraph{Reminder}
+%\begin{itemize}
+%\item
+Collaboration is permitted, but you must write the solutions {\em by
+yourself without assistance}, and be ready to explain them orally to
+the course staff if asked. You must also identify your
+collaborators. Getting solutions from outside sources such as the
+Web or students not enrolled in the class is strictly forbidden.
+%\end{itemize}
+
+%\vspace*{-2mm}
+
+
+\paragraph{Exercises}
+Please practice on exercises and solved problems in Chapters 1.
+The material they cover may appear on exams. It's also a good idea to practice constructing DFAs and NFAs for specific languages using \url{http://automatatutor.com/}.
+
+\paragraph{Problems}
+There are \ref{last}
+mandatory problems and one bonus problem.
+
+
+\begin{enumerate}
+\item
+	Give state diagrams of DFAs with as few states as you can recognizing the following languages.
+	\begin{enumerate}
+    \item[(a)] The alphabet is the set of Nucleic acids $\Sigma = \{A, C, G, T\}$. \\
+    \(L_1 = \{w\mid w \text{ is a sequence of correct  pairings of Nucleic acids}\}\). (Recall that the correct pairings are  $\{A,T\}$ and $\{C,G\}$). In other words,  a string is in $L_1$ if the first and second acids  are a corect pairing, the third and fourth acids are a correct pairing,  and so on. %DFA
+		
+    \item[(b)] $\Sigma = \{b, e, o\}$. \\
+    $L_2 = \{w \mid w \text{ contains the word ``oboe'' as a substring}\}$.
+    
+		\item[(c)] $\Sigma = \{0, 1\}$. \\
+    \(L_3 = \{w\mid w \text{ represents a \emph{valid} binary number in big endian that is a multiple of }3\}\). In other words, and the number is presented starting from the most significant bit and \emph{cannot} have leading 0s.
+    For example, 0, 11, 110, 1001 are in $L_3$, but 00, 1, 011 are not.
+    \\
+    \(L_4 = \{w\mid w \text{ represents a binary number in little endian that is congruent to 1 modulo 3}\}\). In other words, the number equals $3n + 1$ for some integer $n \ge 0$, and the number is presented starting from the least significant bit and \emph{can} have trailing 0s. For example, 1, 0010, 111 are in $L_4$.
+     %DFA
+	\end{enumerate}
+	Give state diagrams of NFAs with as few states as you can recognizing the following languages:
+	\begin{enumerate}
+		\item[(d)] $\Sigma = \{1\}$. \\
+    \(L_5 =\{w \mid \text{the length of }w\text{ is divisible by 3 or by 5}\}\). %NFA
+		
+		\item[(e)] $\Sigma = \{a, d\}$. \\
+    \(L_6 = \{w \mid w \text{ contains substrings ``add'' and ``dad'' which do not overlap}\}\). %NFA
+	\end{enumerate}
+  You can optionally provide some reasoning for your DFA/NFA, which could be accounted for partial credits if the construction is not completely correct.
+
+\item\label{last}
+  \begin{enumerate}
+    \item For any finite set $\Sigma$ and finite set $L \subseteq \Sigma^*$, prove that $L$ is regular.
+    \item Let $\Sigma = \{0, 1\}$. Prove that for any $k > 0$, the language $L_k := \{ w \in \Sigma^* \mid w\text{ ends with } 0^k\}$ can be recognized by an NFA, where $0^k$ means the 0 character repeated $k$ times. (for this part, give formal descriptions for the NFA you construct)
+  \end{enumerate}
+
+\item
+	\textbf{Bonus problem, no collaboration is allowed}
+	
+  Given a regular language $L$.
+  \begin{enumerate}
+    \item Let $f_k(L) := \{a \mid \exists b : ab \in L\text{ and } |b| = k\}$. Prove that for every $k > 0$, $f_k(L)$ is regular. \\
+      \emph{Hint}: Start with $f_1$.
+    \item Let $double(L) := \{a \mid \exists b : ab \in L\text{ and } |b| = |a|\}$. Prove that $double(L)$ is regular. \\
+      \emph{Hint}: Notice that counterintuitively the language $f_k(L)$ does not become ``harder'' when $k$ goes to infinity.
+    \item Let $exp(L) := \{a \mid \exists b : ab \in L\text{ and } |b| = 2^{|a|}\}$. Prove that $exp(L)$ is regular.
+  \end{enumerate}
+\end{enumerate}
+
+\end{document}
